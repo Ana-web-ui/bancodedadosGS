@@ -1,19 +1,19 @@
-CREATE TABLE regressao_linear (
+CREATE TABLE calculo_geracao (
     data DATE,
     energia_gerada NUMBER,
     tipo_energia VARCHAR2(50)
 );
 
-INSERT INTO regressao_linear (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-16', 'YYYY-MM-DD'), 31.014, 'eólica');
-INSERT INTO regressao_linear (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-17', 'YYYY-MM-DD'), 55.854, 'hidráulica');
-INSERT INTO regressao_linear (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-18', 'YYYY-MM-DD'), 278.96, 'hidráulica');
-INSERT INTO regressao_linear (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-19', 'YYYY-MM-DD'), 4.219, 'eólica');
-INSERT INTO regressao_linear (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-20', 'YYYY-MM-DD'), 108.626, 'eólica');
-INSERT INTO regressao_linear (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-21', 'YYYY-MM-DD'), 22.541, 'hidráulica');
-INSERT INTO regressao_linear (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-22', 'YYYY-MM-DD'), 1848.121, 'hidráulica');
+INSERT INTO calculo_geracao (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-16', 'YYYY-MM-DD'), 31.014, 'eólica');
+INSERT INTO calculo_geracao (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-17', 'YYYY-MM-DD'), 55.854, 'hidráulica');
+INSERT INTO calculo_geracao (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-18', 'YYYY-MM-DD'), 278.96, 'hidráulica');
+INSERT INTO calculo_geracao (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-19', 'YYYY-MM-DD'), 4.219, 'eólica');
+INSERT INTO calculo_geracao (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-20', 'YYYY-MM-DD'), 108.626, 'eólica');
+INSERT INTO calculo_geracao (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-21', 'YYYY-MM-DD'), 22.541, 'hidráulica');
+INSERT INTO calculo_geracao (data, energia_gerada, tipo_energia) VALUES (TO_DATE('2024-11-22', 'YYYY-MM-DD'), 1848.121, 'hidráulica');
 
 
-SELECT * FROM regressao_linear;
+SELECT * FROM calculo_geracao;
 
 SELECT
     "A1"."NUMERADOR_B" / "A1"."DENOMINADOR_B"                               "B",
@@ -32,7 +32,8 @@ FROM
                     TO_NUMBER("A4"."DATA" - TO_DATE('2024-11-16', 'YYYY-MM-DD')) "X",
                     "A4"."ENERGIA_GERADA"                                        "Y"
                 FROM
-                    "RM558885"."REGRESSAO_LINEAR" "A4"
+                    "RM558885"."CALCULO_GERACAO
+                    " "A4"
             ) "A3",
             (
                 SELECT
@@ -45,7 +46,8 @@ FROM
                             TO_NUMBER("A6"."DATA" - TO_DATE('2024-11-16', 'YYYY-MM-DD')) "X",
                             "A6"."ENERGIA_GERADA"                                        "Y"
                         FROM
-                            "RM558885"."REGRESSAO_LINEAR" "A6"
+                            "RM558885"."CALCULO_GERACAO
+                            " "A6"
                     ) "A5"
             ) "A2"
         GROUP BY
@@ -82,7 +84,8 @@ FROM
                                     TO_NUMBER("A6"."DATA" - TO_DATE('2024-11-16', 'YYYY-MM-DD')) "X",
                                     "A6"."ENERGIA_GERADA"                                        "Y"
                                 FROM
-                                    "RM558885"."REGRESSAO_LINEAR" "A6"
+                                    "RM558885"."CALCULO_GERACAO
+                                    " "A6"
                             ) "A8",
                             (
                                 SELECT
@@ -95,7 +98,8 @@ FROM
                                             TO_NUMBER("A5"."DATA" - TO_DATE('2024-11-16', 'YYYY-MM-DD')) "X",
                                             "A5"."ENERGIA_GERADA"                                        "Y"
                                         FROM
-                                            "RM558885"."REGRESSAO_LINEAR" "A5"
+                                            "RM558885"."CALCULO_GERACAO
+                                            " "A5"
                                     ) "A4"
                             ) "A7"
                     ) "A3"
