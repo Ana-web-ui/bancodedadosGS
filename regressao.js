@@ -1,43 +1,41 @@
-import { getConnection } from 'oracledb';
 import express from 'express';
+import { getConnection } from 'oracledb';
+
 const app = express();
-    
-app.get('/grafico', async (req, res) => {
-  let conn;
-  try {
-    conn = await getConnection({
-      user: 'usuario',
-      password: 'senha',
-      connectString: 'localhost:1521/orcl'
-    });
+const port = 3000;
 
-    const result = await conn.execute("SELECT data, energia_gerada FROM regressao_linear");
-    
-    // Transformar os dados para o formato necessário para o gráfico
-    const labels = result.rows.map(row => row[0]);
-    const data = result.rows.map(row => row[1]);
+// Configurações do Oracle
+const dbConfig = {
+    user: 'seu_usuario',
+    password: 'sua_senha',
+    connectString: 'host:porta/SID',
+};
 
-    res.json({
-      labels: labels,
-      datasets: [{
-        label: 'Energia Gerada',
-        data: data
-      }]
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Erro ao recuperar dados do banco de dados.");
-  } finally {
-    if (conn) {
-      try {
-        await conn.close();
-      } catch (err) {
+// Endpoint para buscar dados
+app.get('/dados', async (req, res) => {
+    let connection;
+
+    try {
+        connection = await getConnection(dbConfig);
+        const result = await connection.execute('SELECT data, valor FROM tabela ORDER BY data');
+
+        // Formatar os dados para o front-end
+        const labels = result.rows.map(row => row[0]); // Primeira coluna (datas)
+        const valores = result.rows.map(row => row[1]); // Segunda coluna (valores)
+
+        res.json({ labels, valores });
+    } catch (err) {
         console.error(err);
-      }
+        res.status(500).send('Erro ao buscar dados');
+    } finally {
+        if (connection) {
+            await connection.close();
+        }
     }
-  }
 });
 
-app.listen(3000, () => {
-  console.log('Servidor rodando na porta 3000');
+// Iniciar o servidor
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
 });
+
